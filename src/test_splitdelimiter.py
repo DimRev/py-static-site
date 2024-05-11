@@ -1,50 +1,50 @@
 import unittest
-from main import text_node_to_html_node 
+from main import split_delimiter
 from textnode import TextNode, TextType 
 from leafnode import LeafNode
 
-class TestTextNodeToHTMLNode(unittest.TestCase):
-    def test_text_type_text(self):
-        text_node = TextNode("Hello", TextType.TEXT)
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, None)
-        self.assertEqual(html_node.value, "Hello")
-        self.assertEqual(html_node.props, None)
+class TestSplitDelimiter(unittest.TestCase):
+    def test_split_delimiter_missing_closing_delimiter(self):
+        with self.assertRaises(Exception):
+            old_node = TextNode("This `is a test", TextType.TEXT)
+            split_delimiter(old_node, "`", TextType.CODE)
 
-    def test_text_type_bold(self):
-        text_node = TextNode("Bold Text", TextType.BOLD)
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "b")
-        self.assertEqual(html_node.value, "Bold Text")
-        self.assertEqual(html_node.props, None)
+    def test_split_delimiter_no_delimiter_found(self):
+        old_node = TextNode("Hello World", TextType.TEXT)
+        text_nodes = split_delimiter(old_node, "`", TextType.CODE)
+        self.assertEqual(len(text_nodes), 1)
+        self.assertEqual(text_nodes[0].text, "Hello World")
+        self.assertEqual(text_nodes[0].text_type, TextType.TEXT)
+        
+    def test_split_delimiter_delimiter_block_found(self):
+        old_node = TextNode("Hello `code` World", TextType.TEXT)
+        text_nodes = split_delimiter(old_node, "`", TextType.CODE)
+        self.assertEqual(len(text_nodes), 3)
+        self.assertEqual(text_nodes[0].text, "Hello ")
+        self.assertEqual(text_nodes[0].text_type, TextType.TEXT)
+        self.assertEqual(text_nodes[1].text, "code")
+        self.assertEqual(text_nodes[1].text_type, TextType.CODE)
+        self.assertEqual(text_nodes[2].text, " World")
+        self.assertEqual(text_nodes[2].text_type, TextType.TEXT)
+        
+    def test_split_delimiter_delimiter_block_found(self):
+        old_node = TextNode("Hello *code* World *another*", TextType.TEXT)
+        text_nodes = split_delimiter(old_node, "*", TextType.BOLD)
+        self.assertEqual(len(text_nodes), 4)
+        self.assertEqual(text_nodes[0].text, "Hello ")
+        self.assertEqual(text_nodes[0].text_type, TextType.TEXT)
+        self.assertEqual(text_nodes[1].text, "code")
+        self.assertEqual(text_nodes[1].text_type, TextType.BOLD)
+        self.assertEqual(text_nodes[2].text, " World ")
+        self.assertEqual(text_nodes[2].text_type, TextType.TEXT)
+        self.assertEqual(text_nodes[3].text, "another")
+        self.assertEqual(text_nodes[3].text_type, TextType.BOLD)
 
-    def test_text_type_italic(self):
-        text_node = TextNode("Italic Text", TextType.ITALIC)
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "i")
-        self.assertEqual(html_node.value, "Italic Text")
-        self.assertEqual(html_node.props, None)
-
-    def test_text_type_code(self):
-        text_node = TextNode("Code Example", TextType.CODE)
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "code")
-        self.assertEqual(html_node.value, "Code Example")
-        self.assertEqual(html_node.props, None)
-
-    def test_text_type_link(self):
-        text_node = TextNode("Click Here", TextType.LINK, url="https://example.com")
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "a")
-        self.assertEqual(html_node.value, "Click Here")
-        self.assertEqual(html_node.props, {"href": "https://example.com"})
-
-    def test_text_type_image(self):
-        text_node = TextNode("Image", TextType.IMAGE, url="https://example.com/image.jpg")
-        html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "img")
-        self.assertEqual(html_node.value, None)
-        self.assertEqual(html_node.props, {"src": "https://example.com/image.jpg", "alt": "Image"})
+    def test_split_delimiter_missing_closing_delimiter(self):
+        old_node = TextNode("", TextType.TEXT)
+        text_nodes = split_delimiter(old_node, "*", TextType.BOLD)
+        self.assertEqual(len(text_nodes), 1)
+        self.assertEqual(text_nodes[0].text, "")
 
 if __name__ == "__main__":
     unittest.main()

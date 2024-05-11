@@ -29,6 +29,8 @@ def split_delimiter(old_node: TextNode, delimiter, text_type: TextType):
     text = old_node.text
     
     blocks = text.split(delimiter)
+    if len(blocks) == 1 and blocks[0] == "":
+      return old_node
     if len(blocks) % 2 == 0:
       raise Exception("missing closing delimiter")
     text_nodes = []
