@@ -1,10 +1,13 @@
 from textnode import TextNode,TextType
 from leafnode import LeafNode
 from parentnode import ParentNode
+import re
 
 def main():
   code_node = TextNode("`This` is a `code` block `text`",TextType.TEXT)
   text_nodes = split_delimiter(code_node, "`", TextType.CODE)
+  extract_markdown_images("This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)")
+  extract_markdown_links("This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)")
 
 def text_node_to_html_node(text_node: TextNode):
   text_type = text_node.text_type
@@ -30,7 +33,7 @@ def split_delimiter(old_node: TextNode, delimiter, text_type: TextType):
     
     blocks = text.split(delimiter)
     if len(blocks) == 1 and blocks[0] == "":
-      return old_node
+      return [old_node]
     if len(blocks) % 2 == 0:
       raise Exception("missing closing delimiter")
     text_nodes = []
@@ -45,5 +48,12 @@ def split_delimiter(old_node: TextNode, delimiter, text_type: TextType):
             text_nodes.append(text_node)
             
     return text_nodes
+
+def extract_markdown_images(text):
+  return re.findall(r"!\[(.*?)\]\((.*?)\)", text)
+  
+  
+def extract_markdown_links(text):
+  return re.findall(r"\[(.*?)\]\((.*?)\)", text)
 
 main()

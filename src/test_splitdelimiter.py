@@ -40,7 +40,7 @@ class TestSplitDelimiter(unittest.TestCase):
         self.assertEqual(text_nodes[3].text, "another")
         self.assertEqual(text_nodes[3].text_type, TextType.BOLD)
 
-    def test_split_delimiter_missing_closing_delimiter(self):
+    def test_split_delimiter_empty_node(self):
         old_node = TextNode("", TextType.TEXT)
         text_nodes = split_delimiter(old_node, "*", TextType.BOLD)
         self.assertEqual(len(text_nodes), 1)
