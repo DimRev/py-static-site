@@ -13,7 +13,8 @@ class TestParentNode(unittest.TestCase):
     self.parent_node1 = ParentNode("p", [self.child_node1, self.child_node2, self.child_node3])
     self.parent_node2 = ParentNode("p", [self.child_node1, self.child_node2, self.child_node3])
     self.parent_node1_expected = "<p>Click<a href=\"https://google.com\" target=\"_blank\">this</a>Link</p>"
-
+    self.parent_node1_repr_expected ="ParentNode(p,[LeafNode(None,Click,None), LeafNode(a,this,{'href': 'https://google.com', 'target': '_blank'}), LeafNode(None,Link,None)],None)"
+    
     self.parent_node3 = ParentNode(None, [self.child_node1, self.child_node2, self.child_node3])
 
     self.empty_parent = ParentNode("div", [])
@@ -50,6 +51,9 @@ class TestParentNode(unittest.TestCase):
 
   def test_multiple_nested_parents_to_html(self):
     self.assertEqual(self.nested_parent2.to_html(), self.nested_parent_expected_html)
+
+  def test_repr(self):
+    self.assertEqual(self.parent_node1.__repr__(), self.parent_node1_repr_expected)
 
 if __name__ == "__main__":
     unittest.main()

@@ -14,6 +14,7 @@ class TestTextNode(unittest.TestCase):
     
     self.node5 = TextNode("This is another test equal", "bold", None)
     self.node6 = TextNode("This is another test equal", "italic", None)
+    self.node5_repr = "TextNode(This is another test equal, bold, https://google.com)"
     
     self.node5 = TextNode("This is another test equal", "bold", "https://google.com")
     self.node6 = TextNode("This is another test equal", "bold", None)
@@ -29,6 +30,9 @@ class TestTextNode(unittest.TestCase):
     
   def test_url_mismatch_eq(self):  
     self.assertNotEqual(self.node5,self.node6)
+
+  def test_repr(self):
+    self.assertEqual(self.node5.__repr__(), self.node5_repr)
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ class TextHTMLNode(unittest.TestCase):
     
     self.node3 = HTMLNode("p","Hello world",[self.node1,self.node2],{"data":"random"})
     self.node4 = HTMLNode("p","Hello world",[self.node1,self.node2],{"data":"random"})
+    self.node3_repr = "HTMLNode(p,Hello world,[HTMLNode(p,Hello world,None,None), HTMLNode(p,Hello world,None,None)],{'data': 'random'})"
     
     self.node5 = HTMLNode("p","Hello world",[self.node1,self.node3],None)
     self.node6 = HTMLNode("p","Hello world",[self.node1,self.node2],None)
@@ -35,6 +36,9 @@ class TextHTMLNode(unittest.TestCase):
 
   def test_props_to_html_method(self):
     self.assertEqual(self.node9.props_to_html(), self.node9_expected)
+
+  def test_repr(self):\
+    self.assertEqual(self.node3.__repr__(),self.node3_repr)
     
 
 

@@ -8,6 +8,7 @@ class TestLeafNode(unittest.TestCase):
     super().__init__(methodName)
     self.node1 = LeafNode("a", "hello world", {"href":"https://google.com","target":"_blank"})
     self.node2 = LeafNode("a", "hello world", {"href":"https://google.com","target":"_blank"})
+    self.node1_repr = "LeafNode(a,hello world,{'href': 'https://google.com', 'target': '_blank'})" 
 
     self.node3 = LeafNode("a", "Hello world", {"href":"https://google.com","target":"_blank"})
     self.node3_expected = "<a href=\"https://google.com\" target=\"_blank\">Hello world</a>"
@@ -29,6 +30,10 @@ class TestLeafNode(unittest.TestCase):
   def test_to_html_no_value_val_err(self):
     with self.assertRaises(ValueError):
       self.node5.to_html()
+
+  def test_repr(self):
+    self.assertEqual(self.node1.__repr__(), self.node1_repr)
+    
 
 if __name__ == "__main__":
     unittest.main()
