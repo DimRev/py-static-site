@@ -5,7 +5,6 @@ from parentnode import ParentNode
 def main():
   code_node = TextNode("`This` is a `code` block `text`",TextType.TEXT)
   text_nodes = split_delimiter(code_node, "`", TextType.CODE)
-  print(text_nodes)
 
 def text_node_to_html_node(text_node: TextNode):
   text_type = text_node.text_type
