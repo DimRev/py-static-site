@@ -26,7 +26,7 @@ class TestLeafNode(unittest.TestCase):
   def test_to_html_no_tag(self):
     self.assertEqual(self.node4.to_html(),self.node4_expected)
 
-  def test_to_html_no_val_err(self):
+  def test_to_html_no_value_val_err(self):
     with self.assertRaises(ValueError):
       self.node5.to_html()
 
