@@ -4,9 +4,15 @@ from parentnode import ParentNode
 import re
 
 def main():
-  text_nodes = text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)")
+  pass
 
-  print(text_nodes)
+
+
+def markdown_to_blocks(mdText):
+  blocks = mdText.strip().split('\n\n')
+  filtered_blocks = list(filter(lambda block: block != "", blocks))
+  stripped_blocks = list(map(lambda block: block.strip(), filtered_blocks))
+  return stripped_blocks
 
 def text_to_textnodes(text):
   default_node = TextNode(text, TextType.TEXT)
