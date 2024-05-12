@@ -1,5 +1,5 @@
 import unittest
-from main import markdown_to_blocks
+from mkdn_parse import markdown_to_blocks
 
 class TestMarkdownToBlocks(unittest.TestCase):
     def test_markdown_to_blocks_empty_input(self):

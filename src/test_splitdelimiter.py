@@ -1,7 +1,6 @@
 import unittest
-from main import split_delimiter, split_nodes_links, split_nodes_image
+from split import split_delimiter, split_nodes_image, split_nodes_links
 from textnode import TextNode, TextType 
-from leafnode import LeafNode
 
 class TestSplitDelimiter(unittest.TestCase):
     def test_split_delimiter_missing_closing_delimiter(self):

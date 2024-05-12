@@ -1,9 +1,7 @@
 import unittest
 
-from parentnode import ParentNode
-from leafnode import LeafNode
 from textnode import TextNode, TextType
-from main import split_delimiter, text_node_to_html_node
+from to_nodes import text_node_to_html_node
 
 class TestTextNodeToHTMLNode(unittest.TestCase):
   def __init__(self, methodName: str = "runTest") -> None:

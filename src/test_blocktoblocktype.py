@@ -1,5 +1,5 @@
 import unittest
-from main import block_to_block_type
+from mkdn_parse import block_to_block_type
 
 class TestBlockToBlockType(unittest.TestCase):
     def test_heading(self):
