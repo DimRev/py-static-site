@@ -6,7 +6,39 @@ import re
 def main():
   pass
 
+def block_to_block_type(block):
+  if block == "":
+    raise ValueError("can't parse empty block")
+  elif block.startswith("######"):
+    return "heading 6"
+  elif block.startswith("#####"):
+    return "heading 5"
+  elif block.startswith("####"):
+    return "heading 4"
+  elif block.startswith("###"):
+    return "heading 3"
+  elif block.startswith("##"):
+    return "heading 2"
+  elif block.startswith("#"):
+    return "heading 1"
+  elif block.startswith("```\n") and block.endswith("\n```"):
+    return "code"
 
+  lines = list(filter(lambda line: line != "",block.split("\n")))
+
+  if all(line.startswith("* ") for line in lines):
+    return "unordered list"
+  
+  if all(line.startswith("- ") for line in lines):
+    return "unordered list"
+
+  if all(line.startswith(str(i) + ". ") for i, line in enumerate(lines, 1)):
+        return "ordered list"
+      
+  if all(line.startswith("> ") for line in lines):
+    return "quote block"
+
+  return "paragraph"
 
 def markdown_to_blocks(mdText):
   blocks = mdText.strip().split('\n\n')

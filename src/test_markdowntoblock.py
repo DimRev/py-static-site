@@ -32,7 +32,6 @@ It follows the same pattern with multiple lines and newlines.
             "Block 3: This is the third block of text.\nIt is separated by empty lines from the previous blocks.",
             "Block 4: This is the fourth block of text.\nIt follows the same pattern with multiple lines and newlines."
         ]
-        print(markdown_to_blocks(md_text))
         self.assertEqual(markdown_to_blocks(md_text), expected_result)
 
 if __name__ == '__main__':
