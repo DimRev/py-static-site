@@ -1,3 +1,4 @@
+import os
 from mkdn_parse import markdown_to_html_node, markdown_to_blocks
 
 
@@ -9,6 +10,14 @@ def extract_title(markdown):
     raise Exception("header is required")
 
 
+def generate_pages(from_paths: str, template_path, from_prefix, dest_prefix):
+    for from_path in from_paths:
+        to_path = from_path.replace(from_prefix, dest_prefix).replace(".md", ".html")
+        file_path = to_path.strip("/index.html")
+        os.makedirs(file_path, exist_ok=True)
+        generate_page(from_path, template_path, to_path)
+
+
 def generate_page(from_path, template_path, dest_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
 
@@ -18,17 +27,17 @@ def generate_page(from_path, template_path, dest_path):
         with open(from_path, "r") as file:
             markdown = file.read()
     except FileNotFoundError:
-        raise f"markdown file {from_path} not found"
+        raise f"Markdown file {from_path} not found"
     except Exception as e:
-        raise f"something went wrong with markdown file, {e}"
+        raise f"Something went wrong with markdown file: {e}"
 
     try:
         with open(template_path, "r") as file:
             template = file.read()
     except FileNotFoundError:
-        raise f"template file {template_path} not found"
+        raise f"Template file {template_path} not found"
     except Exception as e:
-        raise f"something went wrong with template file, {e}"
+        raise f"Something went wrong with template file: {e}"
 
     markdown_html = markdown_to_html_node(markdown)
     title = extract_title(markdown)
