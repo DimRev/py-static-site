@@ -1,24 +1,13 @@
 import re
+from generate import generate_page
+from copyfiles import clean_directory, get_file_paths, copy_files, create_folders
 
-from textnode import TextNode,TextType
-from leafnode import LeafNode
-from parentnode import ParentNode
-from mkdn_parse import markdown_to_html_node
 
 def main():
-  markdown = '''
-# Heading 1 test
-
-* 1 
-* 2
-* 3
-  '''
-  html_node = markdown_to_html_node(markdown)
-  print(html_node.to_html())
-
-
-
-
+    file_paths = get_file_paths("./static/")
+    clean_directory("./public/")
+    copy_files(file_paths, "./static/", "./public/")
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 
 main()
